@@ -45,12 +45,12 @@ const getBooks = async (req, res) => {
 
 const postBooks = async (req, res) => {
 
-    const {title, year, author}= req.body;
+    const {title, year, author, imgUrl}= req.body;
 
 
     try {
-        if (author && year && title){
-            const newBooks = {title:title, year:year, author:author};
+        if (author && year && title && imgUrl){
+            const newBooks = {title:title, year:year, author:author, imgUrl:imgUrl};
             await client.connect();
             const data = await booksDB.insertOne(newBooks)
             res.send(newBooks)
