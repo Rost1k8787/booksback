@@ -27,9 +27,10 @@ const getBooks = async (req, res) => {
 
     }
 
+
     try {
-        await client.connect()
         console.log(query);
+        await client.connect()
         const cursor = await booksDB.find(query);
         const books = await cursor.toArray();
         res.send(books)
@@ -65,7 +66,7 @@ const postBooks = async (req, res) => {
 
 const deleteBooks = async (req, res) => {
 
-    const {id}= req.body;
+    const id= req.params.id;
 
 
     try {
