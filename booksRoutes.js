@@ -66,9 +66,8 @@ const postBooks = async (req, res) => {
 
 const deleteBooks = async (req, res) => {
 
-    const id= req.params.id;
-
-
+    const id = req.params.id;
+    
     try {
         if (id){
            const bookId = new ObjectId(id)
