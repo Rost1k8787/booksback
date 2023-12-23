@@ -85,4 +85,27 @@ const deleteBooks = async (req, res) => {
     }
 };
 
-module.exports = {getBooks, postBooks, deleteBooks}
+const updateBooks = async (req, res) => {
+    const id = req.params.id;
+    const updatedBook = req.body; 
+    
+    console.log(id);
+   try {
+        if (id){
+           const bookId = new ObjectId(id)
+           console.log("delete");
+            await client.connect();
+            console.log(bookId);
+            await booksDB.updateOne({ _id: new ObjectId(id) }, { $set: updatedBook }, (err, result))
+            res.send({status: "done"})
+        }
+    } catch (error) {
+        return res.status(500).send({
+            status: 500,
+            message: "Server Error in user processing"
+        });
+    }
+};
+
+
+module.exports = {getBooks, postBooks, deleteBooks, updateBooks}
