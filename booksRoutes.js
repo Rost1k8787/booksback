@@ -88,8 +88,7 @@ const deleteBooks = async (req, res) => {
 const updateBooks = async (req, res) => {
     const id = req.params.id;
     const updatedBook = req.body; 
-    
-    console.log(id);
+
    try {
         if (id){
            const bookId = new ObjectId(id)
