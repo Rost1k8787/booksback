@@ -86,25 +86,34 @@ const deleteBooks = async (req, res) => {
 };
 
 const updateBooks = async (req, res) => {
+    const { title, year, author, imgUrl } = req.body;
     const id = req.params.id;
-    const updatedBook = req.body; 
 
-   try {
-        if (id){
-           const bookId = new ObjectId(id)
-           console.log("delete");
+    try {
+        if (author && year && title && imgUrl && id) {
+            const updatedBook = { title, year, author, imgUrl };
             await client.connect();
-            console.log(bookId);
-            await booksDB.updateOne({ _id: new ObjectId(id) }, { $set: updatedBook }, (err, result))
-            res.send({status: "done"})
+            const result = await booksDB.updateOne({ _id: new ObjectId(id) }, { $set: updatedBook });
+            if (result.modifiedCount > 0) {
+                res.send({ status: "done" });
+            } else {
+                res.status(404).send({ status: "not found" });
+            }
+        } else {
+            res.status(400).send({
+                status: 400,
+                message: "Missing required data for book update"
+            });
         }
     } catch (error) {
         return res.status(500).send({
             status: 500,
-            message: "Server Error in user processing"
+            message: "Server Error in book update processing",
+            error : error.message
         });
     }
 };
+
 
 
 module.exports = {getBooks, postBooks, deleteBooks, updateBooks}
